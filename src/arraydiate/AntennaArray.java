@@ -35,11 +35,11 @@ public class AntennaArray extends ArrayList<Antenna>
      {
         
         afList = new ArrayFactor();
-        resetAmplitudes(1.0);       // initializes amplitudes
         num = INIT_NUM;
         phase = INIT_PHASE;
         spacing = INIT_SPACING;
-        arrayType = "";             // default   
+        arrayType = "";             // default  
+        resetAmplitudes(INIT_AMP);       // initializes 2 antennas with amplitudes
           
      }    
 
@@ -114,7 +114,7 @@ public class AntennaArray extends ArrayList<Antenna>
               for (int i = num; i < n; i++)
               {
                    
-                   addAntenna(0.0);
+                   addAntenna(INIT_AMP);
               }
           }
               
@@ -230,8 +230,8 @@ public class AntennaArray extends ArrayList<Antenna>
       resetAmplitudes (double val)
       {
           clear();
-          num = 2;
-          for(int i = 0; i < num; i++)
+         // num = INIT_NUM;
+          for(int i = 0; i < num; i++)  // clear antennas from arraylist, then recreate
           {
               Antenna a = new Antenna(val);
               add(i, a);
@@ -335,6 +335,7 @@ public class AntennaArray extends ArrayList<Antenna>
  
     
     private static final double MAXAMP = 20.0;  // Max amplitude possible for an antenna
+    private static final double INIT_AMP = 1.0;  // Max amplitude possible for an antenna
     private static final int INIT_NUM = 2;      // initial # of elements
     private static final double INIT_PHASE = 0.0;  // initial phase difference
     private static final double INIT_SPACING = 0.5; // initial spacing between elements

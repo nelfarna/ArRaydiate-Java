@@ -178,26 +178,27 @@ public class PolarPlotPanel extends JPanel
                temp_dp = new DataPoint();
                d1 = (DataPoint)af.get(i);
                angle = d1.getAngle();
-               magnitude = d1.getMagnitude() / af.getMaxAF();
+               magnitude = d1.getMagnitude() / af.getMaxAF();  //  normalize so it fits within polar graph
+              
                if (unit == DB)
                {	
-                   magnitude = 10*Math.log(magnitude) + 40.0;
+                   magnitude = 10*Math.log(magnitude) + 40.0; 
            
                    if (magnitude > 0.0){
-	               magnitude *= polar.getRadius() / 40.0;
+                	   magnitude *= polar.getRadius() / 40.0;
                    } else magnitude = 0.0;
                } else magnitude *= polar.getRadius();
 
     //           magnitude_DB = d1.getAbsMagnitude_DB();
     //           magnitude_DB = (polar.getRadius() / //af.getMaxAF_DB())*magnitude_DB;
-                   x = Math.sin(angle - Math.PI/2)*magnitude;
-                   y = Math.cos(angle - Math.PI/2)*magnitude;
+               
+               
+               	y = Math.sin(angle)*magnitude;
+               	x = Math.cos(angle)*magnitude;
           
-                   temp_dp.setLocation(x, y);
-                   temp.add(i, temp_dp);
-                   
-              
-  
+                temp_dp.setLocation(x, y);
+                temp.add(i, temp_dp);
+                 
          }
 
          for(int i = 0; i < af.size(); i++)

@@ -310,8 +310,8 @@ public class InstrumentPanel extends JPanel
                {
                    public void actionPerformed(ActionEvent evt)
                    {
-                        ant_array.resetAmplitudes(0.0);
-                       // disableAllSliders();
+                        ant_array.resetAmplitudes(AMP_INITIAL_VALUE);
+                       
                         int num = Integer.parseInt((String)chooseNumber.getSelectedItem());                         
                         resetSliders(num);
                    }

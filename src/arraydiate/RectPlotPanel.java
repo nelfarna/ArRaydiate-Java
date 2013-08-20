@@ -137,7 +137,7 @@ public class RectPlotPanel extends JPanel
     plot(Graphics2D g, ArrayFactor af)
     {   
          ArrayList<DataPoint> temp = new ArrayList<DataPoint>();
-         DataPoint temp_dp, d1, d2, d3;
+         DataPoint temp_dp, d1, d2;
         
          int centerX = (int)this.centerX;
          int centerY = (int)(this.centerY + rect.getHeight() / 2);
@@ -153,13 +153,13 @@ public class RectPlotPanel extends JPanel
                angle = d1.getAngle();
                if (angle <= Math.PI)
                { 
-                   x = (angle-Math.PI)*(180. / Math.PI) * ((rect.getWidth()/2.) / 180.);
-                   magnitude = d1.getMagnitude() / af.getMaxAF();
+                   x = (angle)/(Math.PI) * (rect.getWidth()/2.);
+                   magnitude = d1.getMagnitude() / af.getMaxAF();  // normalize to fit within plot boundaries
                    if(unit == DB)
                    {    magnitude = 10*Math.log(d1.getMagnitude() / af.getMaxAF()) + 40.0;
-		        if (magnitude > 0.0)
-                   	    y = magnitude*(rect.getHeight() / 40.0);
-        	        else y = 0.0;
+                   		if (magnitude > 0.0)
+                   			y = magnitude*(rect.getHeight() / 40.0);
+                   		else y = 0.0;
                    } else y = magnitude*rect.getHeight();
 
                    temp_dp = new DataPoint(x, y);
@@ -167,46 +167,33 @@ public class RectPlotPanel extends JPanel
                }
 
          }
+         
+         g.setStroke(new BasicStroke(5));  // set stroke thickness
   
+         // plot right side (0 to PI)
          for(int i = 0; i < temp.size(); i++)
          {
               try{
 	              d1 = (DataPoint)temp.get(i);
 	              d2 = (DataPoint)temp.get(i+1);
-	              
-	              if ( i != 0)
-	              {
-	                  d3 = (DataPoint)temp.get(i-1);
-	
-	              }
-
-	             g.setStroke(new BasicStroke(5));
 	            
-		         g.drawLine((int)d1.getX() + centerX, centerY - (int)d1.getY(), (int)d2.getX() + centerX, centerY - (int)d2.getY());
+		          g.drawLine((int)d1.getX() + centerX, centerY - (int)d1.getY(), (int)d2.getX() + centerX, centerY - (int)d2.getY());
 	 
              } catch (Exception e) {
             	 // do nothing
              }
         
          }
+         
+         // plot left side (0 to -PI)
          for(int i = 0; i < temp.size(); i++)
          {
               try{
 	              d1 = (DataPoint)temp.get(i);
 	              d2 = (DataPoint)temp.get(i+1);
-              if ( i != 0)
-              {
-                  d3 = (DataPoint)temp.get(i-1);
-              }
-
-
               
-              g.drawLine(-(int)d1.getX() + centerX - 1, centerY - (int)d1.getY() - 1, -(int)d2.getX() + centerX - 1, centerY - (int)d2.getY() - 1);
-              g.drawLine(-(int)d1.getX() + centerX - 2, centerY - (int)d1.getY() - 2, -(int)d2.getX() + centerX - 2, centerY - (int)d2.getY() - 2);
-	          g.drawLine(-(int)d1.getX() + centerX, centerY - (int)d1.getY(), -(int)d2.getX() + centerX, centerY - (int)d2.getY());                  
-
-
-              g.drawLine(centerX - (int)d1.getX(), centerY - (int)d1.getY(), centerX - (int)d2.getX(), centerY - (int)d2.getY());
+	              g.drawLine(centerX - (int)d1.getX(), centerY - (int)d1.getY(), centerX - (int)d2.getX(), centerY - (int)d2.getY());
+	              
               } catch (Exception e) { }
          }    
         

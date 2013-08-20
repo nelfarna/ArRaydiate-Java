@@ -46,11 +46,9 @@ public class ArraydiateMain {
 	      
 	  
 	      Container cp = mainFrame.getContentPane();
-	      ant_array = new AntennaArray();
+	      ant_array = new AntennaArray();    // initialize antenna array (2 elements)
 	      ant_array.setArrayType("general");
-	      ant_array.resetAmplitudes(1.0);
 	      
-         
 	      setToolBar();
 	      
 	      cp.add(toolBar, BorderLayout.NORTH);
